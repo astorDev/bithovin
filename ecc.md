@@ -41,19 +41,19 @@ Okay, so where does all those numbers came from? Did Satoshi just picked them ou
     - [ ] Show the Bitcoin base equasion and it's graph (https://www.desmos.com/calculator/ktur7ntzhh)
     - [ ] Point out that other important aspect of finite field is "Finite field", which means coordinates satisfying the equation in which both X and Y are non-negative integers less then the finite field "size"
     - [ ] Move to https://andrea.corbellini.name/ecc/interactive/modk-mul.html to represent the finite field
-    - [ ] Suggest adjusting a and b to 0 and 7 as in bitcoin equation, noting that we get completely different points.
+    - [ ] Suggest adjusting a and b to 0 and 7 as in bitcoin equation, noting that we get completely different set of points.
     - [ ] Propose a question of what is P and is it a private key
     - [ ] Answer that this is our starting point and that it's a single point from where we start the magic and all
     - [ ] Propose a question on what is n.
     - [ ] Answer the question with the fact is that it's number of times we "manipulate" P
     - [ ] Propose moving n from 0 (ensuring Q match P) up to 8 and noting how random the move of Q seems.
+    - [ ] Propose setting n (d) to 8 + 79 = 87 (number of points a.k.a order of the curve) - note that it got exactly same result as 8. Tease to more on that later.
     - [ ] Announce that n (or usually called d) is the private key.
     - [ ] Summarize then if someone sign a message with private key (8) anyone with public key (57; 30) will be able to verify it.
 - [ ] secp256k1
     - [ ] Highlight that our private key is easy to guess and that it's not really suitable for real cryptography
     - [ ] Explain that to make cryptographically suitable we need to have really big number for p (Field) and certain values for generator point
-    - [ ] Also note that range on n is [1; p - 1] (For some reason). Illustrate how big it is (show a real generated key as a number).
-        - [ ] Or just point out that increasing p allows us to make picking big n also sensible.
+    - [ ] Remind the case of using 87 public key equals to 9. Explain that with a cyclic nature of the curve. Point out that this means the range of private key is in range of [1; n - 1].
     - [ ] Propose a question of where those parameters come from?
     - [ ] Explain that they are created by smart people in the certain organizations.
     - [ ] Propose a question that if a goal is security why don't they pick even greater number if it will increase security?
