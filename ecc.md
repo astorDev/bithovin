@@ -8,17 +8,21 @@ status: playground
 Section Title: WTF is Assymetric encryption and why should I care?
 SectionTitle: WTF is ECDSA and why should I care?
 
-Some smart people are able to get an algebraitic formula for that. I'll attach the formula in case you want to understand it. Anyway, the important thing is that the calculation can be done with algebra, hence can be relatively easily coded.
+## Ellipic What?
 
-What would happen if Elliptic curves cryptography will be hacked? Gladly we will still be protected once more.. (public key -> address)
+Number n is how many times we do a certain manipulation with the Generator Point.
+
+Math-guys will tell you that the "manipulation" called "addition". That has nothing to do with the addition you did in school. Unfortunately, in math that's common to make confusing naming, that's just something in the nature of mathematician I guess. To make it even funnier
+
+In technical terms that manipulation will be addition to itself. By that terms n is actually a multiplicator of G (since addtion to itself is called multiplication). BUT don't be illusioned by the name. It is **absolutely** not an addition you may expect. If you want to understand what it actually, I'll attach an explanation in the appendix
+
+
 
 ## secp2561k
 
 Here's an example value I get 
 
 Okay, so where does all those numbers came from? Did Satoshi just picked them out of the thin air?
-
-So with all that cryptography I can easily share my bitcoin address: 13WkPuWEYaCTEJwGMW7fYUiYdazF5SR75H on the internet, knowing no one will be able to still my bitcoin. I don't mind if someone send me some, though. 😉
 
 # Structure
 
@@ -35,15 +39,21 @@ So with all that cryptography I can easily share my bitcoin address: 13WkPuWEYaC
     - [ ] Create a bridge to Elliptic curves via a history reference.
 - [ ] Elliptic Curve Digital Signatures
     - [ ] Show the Bitcoin base equasion and it's graph (https://www.desmos.com/calculator/ktur7ntzhh)
-    - [ ] Performed carefully explained multiplication (a.k.a public key calculation) via https://andrea.corbellini.name/ecc/interactive/modk-mul.html
-    - [ ] Perform carefully explained signing
-        - [ ] Propose signed message as number 8. Mention that a message can be hashed to a number.
-        - [ ] 
-    - [ ] Perform carefully explained verification from previously explained public key
+    - [ ] Point out that other important aspect of finite field is "Finite field", which means coordinates satisfying the equation in which both X and Y are non-negative integers less then the finite field "size"
+    - [ ] Move to https://andrea.corbellini.name/ecc/interactive/modk-mul.html to represent the finite field
+    - [ ] Suggest adjusting a and b to 0 and 7 as in bitcoin equation, noting that we get completely different points.
+    - [ ] Propose a question of what is P and is it a private key
+    - [ ] Answer that this is our starting point and that it's a single point from where we start the magic and all
+    - [ ] Propose a question on what is n.
+    - [ ] Answer the question with the fact is that it's number of times we "manipulate" P
+    - [ ] Propose moving n from 0 (ensuring Q match P) up to 8 and noting how random the move of Q seems.
+    - [ ] Announce that n (or usually called d) is the private key.
+    - [ ] Summarize then if someone sign a message with private key (8) anyone with public key (57; 30) will be able to verify it.
 - [ ] secp256k1
     - [ ] Highlight that our private key is easy to guess and that it's not really suitable for real cryptography
     - [ ] Explain that to make cryptographically suitable we need to have really big number for p (Field) and certain values for generator point
-    - [ ] Also note that range on n is [1; p -1]. Illustrate how big it is (show a real generated key as a number).
+    - [ ] Also note that range on n is [1; p - 1] (For some reason). Illustrate how big it is (show a real generated key as a number).
+        - [ ] Or just point out that increasing p allows us to make picking big n also sensible.
     - [ ] Propose a question of where those parameters come from?
     - [ ] Explain that they are created by smart people in the certain organizations.
     - [ ] Propose a question that if a goal is security why don't they pick even greater number if it will increase security?

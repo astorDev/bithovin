@@ -1,3 +1,14 @@
+---
+status: prototype
+type: article
+---
+
+# {Title}
+
+What would happen if Elliptic curves cryptography will be hacked? Gladly we will still be protected once more.. (public key -> address)
+
+So with all that cryptography I can easily share my bitcoin address: 13WkPuWEYaCTEJwGMW7fYUiYdazF5SR75H on the internet, knowing no one will be able to still my bitcoin. I don't mind if someone send me some, though. 😉
+
 # Structure
 
 - [ ] Point to the previous article and that in it we've generated a bitcoin private and public key
