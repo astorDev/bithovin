@@ -24,6 +24,26 @@ public record ECSignature(
     BigInteger s
 );
 
+public record VerificationResult(bool Valid, Exception? Exception = null)
+{
+    public static implicit operator VerificationResult(bool valid) => new(valid);
+    public static implicit operator VerificationResult(Exception ex) => new (false, ex);
+
+    public static implicit operator bool(VerificationResult res) => res.Valid;
+
+    public static VerificationResult From(Func<bool> verification)
+    {
+        try
+        {
+            return verification();
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
+    }
+}
+
 
 public static class Secp256K1
 {
@@ -32,7 +52,7 @@ public static class Secp256K1
     public static BigInteger GeneratePrivateKey() => I.GeneratePrivateKey();
     public static BigPoint PublicKeyFor(BigInteger privateKey) => I.PublicKeyFor(privateKey);
     public static ECSignature GenerateSignature(byte[] rawData, BigInteger privateKey, IDigest? digest = null) => I.GenerateSignature(rawData, privateKey, digest);
-    public static bool VerifySignature(byte[] rawData, ECSignature signature, BigPoint publicKey, IDigest? digest = null) => I.VerifySignature(rawData, signature, publicKey, digest);
+    public static VerificationResult VerifySignature(byte[] rawData, ECSignature signature, BigPoint publicKey, IDigest? digest = null) => I.VerifySignature(rawData, signature, publicKey, digest);
     
     public class Instance 
     {
@@ -98,7 +118,7 @@ public static class Secp256K1
             return new(r, s);
         }
 
-        public bool VerifySignature(byte[] rawData, ECSignature signature, BigPoint publicKey, IDigest? digest = null)
+        public VerificationResult VerifySignature(byte[] rawData, ECSignature signature, BigPoint publicKey, IDigest? digest = null)
         {
             digest ??= new Sha256Digest();
             digest.BlockUpdate(rawData, 0, rawData.Length);
@@ -106,12 +126,16 @@ public static class Secp256K1
             digest.DoFinal(hash, 0);
             
             var verifier = new ECDsaSigner();
-            var ecPoint = Parameters.Curve.CreatePoint(publicKey.X, publicKey.Y);
-            var publicKeyParameters = new ECPublicKeyParameters(ecPoint, Parameters);
-            
-            verifier.Init(forSigning: false, publicKeyParameters);
 
-            return verifier.VerifySignature(hash, signature.r, signature.s);
+            return VerificationResult.From(() =>
+            {
+                var ecPoint = Parameters.Curve.CreatePoint(publicKey.X, publicKey.Y);
+                var publicKeyParameters = new ECPublicKeyParameters(ecPoint, Parameters);
+
+                verifier.Init(forSigning: false, publicKeyParameters);
+
+                return verifier.VerifySignature(hash, signature.r, signature.s);
+            });
         }
     }    
 }

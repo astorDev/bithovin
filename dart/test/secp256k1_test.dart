@@ -39,4 +39,38 @@ void main() {
     print(verified);
     expect(verified, true);
   });
+
+  test('verify from outside', () {
+    var data = utf8.encode('Hello, secp256k1 with C#');
+    var signature = ECSignature(
+      BigInt.parse("37829834893185790287574494787777878239722765556565340353647073721545626782852"),
+      BigInt.parse("37718798264420829667432443467910095951370051737768320660808821983783470666371")
+    );
+
+    var publicKey = Point(
+      BigInt.parse("102912990918854309762114792265177763359550703853273295079676447005108089998417"),
+      BigInt.parse("95647718952404373085123510831705086175988003528985051513075979776598068537431")
+    );
+
+    var verified = Secp256k1.verifySignature(data, signature, publicKey);
+    print(verified);
+    expect(verified, true);
+  });
+
+  test('verify invalid from outside', () {
+    var data = utf8.encode('Hello, secp256k1 with C#');
+    var signature = ECSignature(
+      BigInt.parse("37829834893185790287574494787777878239722765556565340353647073721545626782851"), // invalidly ends with 1
+      BigInt.parse("37718798264420829667432443467910095951370051737768320660808821983783470666371")
+    );
+
+    var publicKey = Point(
+      BigInt.parse("102912990918854309762114792265177763359550703853273295079676447005108089998417"),
+      BigInt.parse("95647718952404373085123510831705086175988003528985051513075979776598068537431")
+    );
+
+    var verified = Secp256k1.verifySignature(data, signature, publicKey);
+    print(verified);
+    expect(verified, false);
+  });
 }
