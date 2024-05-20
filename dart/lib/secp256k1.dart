@@ -17,6 +17,11 @@ class Point {
   factory Point.fromECPoint(ECPoint ecPoint) {
     return Point(ecPoint.x!.toBigInteger()!, ecPoint.y!.toBigInteger()!);
   }
+
+  @override
+  String toString() {
+    return '($x, $y)';
+  }
 }
 
 class Secp256k1 {
