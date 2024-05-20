@@ -1,2 +1,6 @@
 inbox.md
 .DS_Store
+bin/
+obj/
+*.user
+.idea/
