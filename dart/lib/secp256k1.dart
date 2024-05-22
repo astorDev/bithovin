@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:dart/sec_compressed.dart';
 import 'package:dart/utils.dart';
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/ecc/api.dart';
@@ -53,16 +54,6 @@ class Secp256k1PublicKey {
     }
   }
 
-  Uint8List encodeCompressed() {
-    return value.Q!.getEncoded(true);
-  }
-
-  factory Secp256k1PublicKey.decodeCompressed(Uint8List compressed) {
-    var Q = Secp256k1.curve.decodePoint(compressed);
-    var pubKey = ECPublicKey(Q, Secp256k1.params);
-    return Secp256k1PublicKey._internal(pubKey);
-  }
-
   @override
   String toString() => '${value.Q!}';
 
@@ -76,4 +67,16 @@ class Secp256k1PublicKey {
   
   @override
   int get hashCode => value.Q!.hashCode;
+
+  SecCompressed toSecCompressed() {
+    return SecCompressed.fromECPoint(value.Q!);
+  }
+}
+
+extension SecCompressedExtensions on SecCompressed {
+  Secp256k1PublicKey toSecp256k1PublicKey() {
+    var Q = toECPoint(Secp256k1.curve);
+    var pubKey = ECPublicKey(Q, Secp256k1.params);
+    return Secp256k1PublicKey._internal(pubKey);
+  }
 }
