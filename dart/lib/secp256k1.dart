@@ -1,116 +1,79 @@
-import 'dart:math';
 import 'dart:typed_data';
-
+import 'package:dart/utils.dart';
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/ecc/api.dart';
-import 'package:pointycastle/key_generators/ec_key_generator.dart';
-import 'package:pointycastle/random/fortuna_random.dart';
 import 'package:pointycastle/signers/ecdsa_signer.dart';
-import 'package:pointycastle/ecc/ecc_fp.dart' as ecc_fp;
-
-class Point {
-  BigInt x;
-  BigInt y;
-
-  Point(this.x, this.y);
-
-  factory Point.fromECPoint(ECPoint ecPoint) {
-    return Point(ecPoint.x!.toBigInteger()!, ecPoint.y!.toBigInteger()!);
-  }
-
-  @override
-  String toString() {
-    return '($x, $y)';
-  }
-}
 
 class Secp256k1 {
-  static Secp256k1Instance instance = Secp256k1Instance();
-
-  static Point publicKeyFor(BigInt privateKey) {
-    var Q = instance.params.G * privateKey;
-    
-    return Point.fromECPoint(Q!);
-  }
-
-  static BigInt generatePrivateKey() {
-    return instance.generatePrivateKey();
-  }
-
-  static ECSignature generateSignature(Uint8List rawData, BigInt privateKey, {String algorithmName = 'SHA-256/ECDSA'}) {
-    return instance.generateSignature(rawData, privateKey);
-  }
-
-  static bool verifySignature(Uint8List signedData, ECSignature signature, Point publicKey, {String algorithm = 'SHA-256/ECDSA'}) {
-    return instance.verify(signedData, signature, publicKey);
-  }
+  static ECCurve get curve => params.curve;
+  static ECDomainParameters params = ECDomainParameters('secp256k1');
 }
 
-class Secp256k1Instance {
-  late ECDomainParameters params;
-  late ECKeyGenerator generator;
-  late SecureRandom random;
+class Secp256k1PrivateKey {
+  ECPrivateKey value;
 
-  Secp256k1Instance() {
-    params = ECDomainParameters('secp256k1');
-    random = getSecureRandom();
+  Secp256k1PrivateKey._internal(this.value);
+
+  Secp256k1PublicKey getPublicKey() {
+    var Q = value.parameters!.G * value.d!;
+    var pubKey = ECPublicKey(Q, value.parameters);
+    return Secp256k1PublicKey._internal(pubKey);
   }
 
-  BigInt generatePrivateKey() {
-    var n = params.n;
-    var nBitLength = n.bitLength;
-    BigInt? d;
-
-    do {
-      d = random.nextBigInteger(nBitLength);
-    } while (d == BigInt.zero || (d >= n));
-
-    return d;
+  factory Secp256k1PrivateKey.generateNew() {
+    var privateKey = SecureRandoms.fortunaSeededWithDartSecureRandom().generatePrivateKey(Secp256k1.params);
+    return Secp256k1PrivateKey._internal(privateKey);
   }
 
-   ECSignature generateSignature(Uint8List rawData, BigInt privateKey, {String algorithmName = 'SHA-256/ECDSA'}) {
-    var signer = Signer(algorithmName) as ECDSASigner;
-    var privateKeyWithCurve = ECPrivateKey(privateKey, params);
-    var signerPrivateKey = PrivateKeyParameter<ECPrivateKey>(privateKeyWithCurve);
-    var signerRandom = getSecureRandom();
+  ECSignature sign(Uint8List data, {String algorithm = 'SHA-256/ECDSA'}) => EllipticCurve.sign(data, value, algorithm);
 
-    var signerParams = ParametersWithRandom(signerPrivateKey, signerRandom);
-    signer.init(true, signerParams);
+  @override
+  String toString() => value.d.toString();
+}
 
-    var sig = signer.generateSignature(rawData) as ECSignature;
+class Secp256k1PublicKey {
+  ECPublicKey value;
 
-    return sig;
+  Secp256k1PublicKey._internal(this.value);
+
+  factory Secp256k1PublicKey.fromRawBigIntegers(BigInt x, BigInt y) {
+    var pubKey = EllipticCurve.constructPublicKey(x, y, Secp256k1.params);
+    return Secp256k1PublicKey._internal(pubKey);
   }
 
-  static SecureRandom getSecureRandom() {
-    var secureRandom = FortunaRandom();
-    var random = Random.secure();
-    var seeds = <int>[];
-    for (var i = 0; i < 32; i++) {
-      seeds.add(random.nextInt(255 + 1));
-    }
-    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-    return secureRandom;
-  }
-
-  bool verify(Uint8List signedData, ECSignature signature, Point publicKey, {String algorithm = 'SHA-256/ECDSA'}) {
-    
+  bool verify(Uint8List data, ECSignature signature, {String algorithm = 'SHA-256/ECDSA'}) {
     final verifier = Signer(algorithm) as ECDSASigner;
 
-    var pubKey = ECPublicKey(
-        ecc_fp.ECPoint(
-            params.curve as ecc_fp.ECCurve,
-            params.curve.fromBigInteger(publicKey.x) as ecc_fp.ECFieldElement?,
-            params.curve.fromBigInteger(publicKey.y) as ecc_fp.ECFieldElement?,
-            true),
-        params);
-
-    verifier.init(false, PublicKeyParameter<ECPublicKey>(pubKey));
+    verifier.init(false, PublicKeyParameter<ECPublicKey>(value));
 
     try {
-      return verifier.verifySignature(signedData, signature);
+      return verifier.verifySignature(data, signature);
     } on ArgumentError {
       return false;
     }
   }
+
+  Uint8List encodeCompressed() {
+    return value.Q!.getEncoded(true);
+  }
+
+  factory Secp256k1PublicKey.decodeCompressed(Uint8List compressed) {
+    var Q = Secp256k1.curve.decodePoint(compressed);
+    var pubKey = ECPublicKey(Q, Secp256k1.params);
+    return Secp256k1PublicKey._internal(pubKey);
+  }
+
+  @override
+  String toString() => '${value.Q!}';
+
+  @override 
+  bool operator ==(Object other) {
+    if (other is Secp256k1PublicKey) {
+      return value.Q == other.value.Q;
+    }
+    return false;
+  }
+  
+  @override
+  int get hashCode => value.Q!.hashCode;
 }
