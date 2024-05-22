@@ -1,42 +1,20 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dart/secp256k1.dart';
+import 'package:dart/utils.dart';
 import 'package:pointycastle/ecc/api.dart';
 import 'package:test/test.dart';
 
+import 'printed_extensions.dart';
+
 void main() {
-
-  Uint8List data = utf8.encode('Hello from dart secp256k1!');
-  BigInt privateKey = BigInt.parse("41773220011020448796451705538427683430495588095087483091387299607380652481134");
-  Point publicKey = Point(
-    BigInt.parse("21285371770960987179343891334477951184299084915952205959541518459254283849951"),
-    BigInt.parse("22671947423549970796294697518695530648245966458430018258533359741779880876856")
-  );
-
-  ECSignature signature = ECSignature(
-    BigInt.parse("86058557054575571086167585107837415358165949453073739311202780092611888743858"),
-    BigInt.parse("22076606289889717131594195825238606622326255596425005294818774860206769341915")
-  );
-
-  test('generatePrivateKey', () {
-    var privateKey = Secp256k1.generatePrivateKey();
-    print(privateKey);
-  });
-
-  test('get public key', () {
-    var publicKey = Secp256k1.publicKeyFor(privateKey);
-    print(publicKey);
-  });
-
-  test('sign data', () {
-    var signature = Secp256k1.generateSignature(data, privateKey);
-    print(signature);
-  });
-
-  test('verify signature', () {
-    var verified = Secp256k1.verifySignature(data, signature, publicKey);
-    print(verified);
+  test('sign and verify signature using generated keys', () {
+    var data = utf8.encode('Hello from dart secp256k1!');
+    var privateKey = Secp256k1PrivateKey.generateNew().printed(name: "privateKey");
+    var signature = privateKey.sign(data).printed(name: "signature");
+    var publicKey = privateKey.getPublicKey().printed(name: "publicKey");
+    var verified = publicKey.verify(data, signature).printed(name: "verified");
+    
     expect(verified, true);
   });
 
@@ -47,14 +25,26 @@ void main() {
       BigInt.parse("37718798264420829667432443467910095951370051737768320660808821983783470666371")
     );
 
-    var publicKey = Point(
+    var publicKey = Secp256k1PublicKey.fromRawBigIntegers(
       BigInt.parse("102912990918854309762114792265177763359550703853273295079676447005108089998417"),
       BigInt.parse("95647718952404373085123510831705086175988003528985051513075979776598068537431")
     );
 
-    var verified = Secp256k1.verifySignature(data, signature, publicKey);
-    print(verified);
+    var verified = publicKey.verify(data, signature).printed(name: "verified");
+    
     expect(verified, true);
+  });
+
+  test('export and import public key', () {
+    var publicKey = Secp256k1PublicKey.fromRawBigIntegers(
+      BigInt.parse("102912990918854309762114792265177763359550703853273295079676447005108089998417"),
+      BigInt.parse("95647718952404373085123510831705086175988003528985051513075979776598068537431")
+    );
+
+    var publicKeyHex = publicKey.encodeCompressed().hex().printed(name: "hex");
+    var imported = Secp256k1PublicKey.decodeCompressed(Hex.decode(publicKeyHex)).printed(name: "imported");
+
+    expect(imported, publicKey);
   });
 
   test('verify invalid from outside', () {
@@ -64,13 +54,15 @@ void main() {
       BigInt.parse("37718798264420829667432443467910095951370051737768320660808821983783470666371")
     );
 
-    var publicKey = Point(
+    var publicKey = Secp256k1PublicKey.fromRawBigIntegers(
       BigInt.parse("102912990918854309762114792265177763359550703853273295079676447005108089998417"),
       BigInt.parse("95647718952404373085123510831705086175988003528985051513075979776598068537431")
     );
 
-    var verified = Secp256k1.verifySignature(data, signature, publicKey);
-    print(verified);
+    var verified = publicKey.verify(data, signature).printed(name: "verified");
+    
     expect(verified, false);
   });
+
+
 }
