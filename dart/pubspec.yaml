@@ -1,16 +1,15 @@
-name: dart
-description: A sample command-line application.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+name: bithovin
+description: Various cryptographic tools with special focus on Bitcoin.
+repository: https://github.com/astorDev/bithovin
+version: 2024.105.1260
 
 environment:
   sdk: ^3.2.5
 
-# Add regular dependencies here.
 dependencies:
   pointycastle: ^3.9.1
   basic_utils: ^5.7.0
 
 dev_dependencies:
-  lints: ^2.1.0
+  lints: ^4.0.0
   test: ^1.24.0

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
-import 'package:dart/sec_compressed.dart';
-import 'package:dart/utils.dart';
+import 'package:bithovin/elliptic_curve.dart';
+import 'package:bithovin/secure_randoms.dart';
+
+import '/sec_compressed.dart';
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/ecc/api.dart';
 import 'package:pointycastle/signers/ecdsa_signer.dart';
@@ -22,7 +24,7 @@ class Secp256k1PrivateKey {
   }
 
   factory Secp256k1PrivateKey.generateNew() {
-    var privateKey = SecureRandoms.fortunaSeededWithDartSecureRandom().generatePrivateKey(Secp256k1.params);
+    var privateKey = SecureRandoms.fortunaSeededWithDartSecureRandom().generateECPrivateKey(Secp256k1.params);
     return Secp256k1PrivateKey._internal(privateKey);
   }
 

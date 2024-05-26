@@ -43,6 +43,6 @@ class Hex {
   String toString() => value;
 }
 
-extension HexExtension on Uint8List {
+extension HexUint8ListExtension on Uint8List {
   Hex toHex() => Hex.fromBytes(this);
 }

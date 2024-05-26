@@ -1,10 +1,6 @@
 import 'dart:convert';
 
-import 'package:basic_utils/basic_utils.dart';
-import 'package:dart/der.dart';
-import 'package:dart/sec_compressed.dart';
-import 'package:dart/secp256k1.dart';
-import 'package:pointycastle/ecc/api.dart';
+import 'package:bithovin/bithovin.dart';
 import 'package:test/test.dart';
 
 import 'printed_extensions.dart';

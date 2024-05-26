@@ -1,12 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:basic_utils/basic_utils.dart';
-import 'package:dart/der.dart';
-import 'package:dart/hex.dart';
-import 'package:dart/secp256k1.dart';
+import '/der.dart';
+import '/hex.dart';
+import '/secp256k1.dart';
 
 class SecCompressed extends BytesFormat {
-  SecCompressed(Uint8List bytes) : super(bytes);
+  SecCompressed(super.bytes);
 
   factory SecCompressed.fromECPoint(ECPoint ecPoint) {
     var bytes = ecPoint.getEncoded(true);
