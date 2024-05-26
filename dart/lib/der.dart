@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
-import 'package:dart/hex.dart';
+import 'hex.dart';
 import 'package:pointycastle/asn1/primitives/asn1_integer.dart';
 import 'package:pointycastle/asn1/primitives/asn1_sequence.dart';
 import 'package:pointycastle/ecc/api.dart';
 
 class Der extends BytesFormat {
-  Der(Uint8List bytes) : super(bytes);
+  Der(super.bytes);
 
   factory Der.fromECSignature(ECSignature signature) {
     var outer = ASN1Sequence();
@@ -23,8 +23,6 @@ class Der extends BytesFormat {
 
     return ECSignature(el1.integer!, el2.integer!);
   }
-
-
 }
 
 class BytesFormat {
@@ -39,6 +37,6 @@ extension DerExtension on ECSignature {
   Der toDer() => Der.fromECSignature(this);
 }
 
-extension HexExtension on Hex {
+extension DerHexExtension on Hex {
   Der toDer() => Der(toBytes());
 }
