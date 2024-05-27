@@ -3,11 +3,33 @@ type: article
 status: draft
 ---
 
-## Binary to text: Hex, Base64, Base58
+## Binary to text encodings: Hex, Base64, Base58
 
 ![-Would you like some #ffa500? -Yes, I love oranges!](thumbnail.png)
 
 ## Who said Bitcoin?
+
+
+## Recap
+
+```
++-----------+-------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| Encoding  | Summary                                                                 | Use-Cases                                                                                 |
++-----------+-------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| Hex       | Represents binary data as hexadecimal (base-16) digits. Each byte is    | - Debugging and analyzing binary data                                                     |
+|           | converted to two hexadecimal characters.                                | - Displaying binary data in a human-readable format                                       |
+|           |                                                                         | - Cryptographic operations (e.g., checksums, hashes)                                      |
++-----------+-------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| Base64    | Encodes binary data into an ASCII string format using 64 characters (A-Z,| - Encoding binary data for XML and JSON                                                   |
+|           | a-z, 0-9, +, /).                                                        | - Embedding images or files in HTML or CSS                                                 |
+|           |                                                                         | - Data transmission over media that are designed to handle text                           |
++-----------+-------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+| Base58    | Encodes binary data into an alphanumeric string using 58 characters,     | - Bitcoin and other cryptocurrency addresses                                               |
+|           | excluding similar-looking ones (e.g., 0, O, I, l).                      | - URL shortening and safe transmission                                                     |
+|           |                                                                         | - User-friendly representations of binary data                                             |
++-----------+-------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+
+```
+
 
 # Structure
 
@@ -28,9 +50,52 @@ status: draft
     - [ ] Propose the question if hex is not that different from the binary can we get hex from a file
     - [ ] Answer that we can and convert `small-ferret.jpeg` into hex, using https://emn178.github.io/online-tools/hex_encode_file.html. 
     - [ ] Count chars: 26588 and note that it's a very long string. Propose a question of whether can we use more symbols and move from 16-radix to more
-    - [ ] Answer that we can and introduce Base64.
+    - [ ] Answer that we can and introduce Base64 (with it's character set)
     - [ ] Convert small ferret into base64 using https://emn178.github.io/online-tools/base64_encode_file.html. Count characters: 17728
     - [ ] Challenge moving back from base64 to image. Prove it using https://diewland.github.io/base64toImage/
 - [ ] Base58
     - [ ] Reference Bitcoin article, highlighting private key being a big number
-    - [ ] ...
+    - [ ] Propose using a smaller number, e.g. 3885384 (that number is specially used since it uses base58 removed symbols)
+    - [ ] Convert it to binary https://math.tools/calculator/base/10-2, then to base64 https://math.tools/calculator/base/2-64
+        - Note that it can also be done faster via https://math.tools/calculator/base/10-64
+    - [ ] Highlight the problem with similarly looking chars in the base64 (O0lI)
+    - [ ] Highlight that this is the problem that Base58 solves + mention there's also Version Byte and Checksum, but they are out of scope of the article.
+    - [ ] Convert the same number to base58 (get unconflicting LuzP)
+- [ ] Final
+    - [ ] Recap with list of encodings accompanied with short description and use-cases.
+
+# Tools And Calculations
+
+
+`Decimal to Hex`:
+
+https://www.binaryhexconverter.com/decimal-to-hex-converter: 3885384 -> 3B4948
+https://simplewebtool.firebaseapp.com/converters/number/decimaltohex/decimaltohex.html: 3885384 -> 3B4948
+https://www.rapidtables.com/convert/number/decimal-to-hex.html: 3885384 -> 3B4948
+
+`Decimal to binary`:
+
+https://math.tools/calculator/base/10-2: 3885384 -> 1110110100100101001000
+
+`Hex to binary`:
+
+https://www.binaryhexconverter.com/hex-to-binary-converter: 3B4948 -> 1110110100100101001000
+
+`Binary to base64`
+
+https://math.tools/calculator/base/2-64: 1110110100100101001000 -> O0lI
+https://www.goodconverters.com/binary-to-base64: 1110110100100101001000 -> O0lI
+
+`Hex to base64`:
+
+https://emn178.github.io/online-tools/base64_encode.html: 3B4948 -> O0lI
+https://cryptii.com/pipes/hex-to-base64: 3b4948 -> O0lI
+https://www.atatus.com/tools/hex-to-base64: 3b4948 -> O0lI
+
+`Hex to base58`
+
+https://emn178.github.io/online-tools/base58_encode.html: 3b4948 -> LuzP
+
+`Decimal to base58`:
+
+https://www.dcode.fr/base-58-cipher: 3885384 -> LuzP
