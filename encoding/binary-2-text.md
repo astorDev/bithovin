@@ -5,6 +5,8 @@ status: draft
 
 ## Binary to text: Hex, Base64, Base58
 
+![-Would you like some #ffa500? -Yes, I love oranges!](thumbnail.png)
+
 ## Who said Bitcoin?
 
 # Structure
