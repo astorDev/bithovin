@@ -47,22 +47,22 @@ status: draft
     - [ ] Convert hex to binary ("Told you it's 0s and 1s after all").
     - [ ] Convert binary to hex - Note that hex and binary are essentially different representations of the same thing
 - [ ] Base64
-    - [ ] Propose the question if hex is not that different from the binary can we get hex from a file
+    - [ ] Propose the question if the hex is not that different from the binary can we get hex from a file
     - [ ] Answer that we can and convert `small-ferret.jpeg` into hex, using https://emn178.github.io/online-tools/hex_encode_file.html. 
     - [ ] Count chars: 26588 and note that it's a very long string. Propose a question of whether can we use more symbols and move from 16-radix to more
     - [ ] Answer that we can and introduce Base64 (with it's character set)
     - [ ] Convert small ferret into base64 using https://emn178.github.io/online-tools/base64_encode_file.html. Count characters: 17728
     - [ ] Challenge moving back from base64 to image. Prove it using https://diewland.github.io/base64toImage/
 - [ ] Base58
-    - [ ] Reference Bitcoin article, highlighting private key being a big number
+    - [ ] Reference Bitcoin article, highlighting a private key is a big number
     - [ ] Propose using a smaller number, e.g. 3885384 (that number is specially used since it uses base58 removed symbols)
     - [ ] Convert it to binary https://math.tools/calculator/base/10-2, then to base64 https://math.tools/calculator/base/2-64
         - Note that it can also be done faster via https://math.tools/calculator/base/10-64
     - [ ] Highlight the problem with similarly looking chars in the base64 (O0lI)
-    - [ ] Highlight that this is the problem that Base58 solves + mention there's also Version Byte and Checksum, but they are out of scope of the article.
-    - [ ] Convert the same number to base58 (get unconflicting LuzP)
+    - [ ] Highlight that this is the problem that Base58 solves + mention there's also Version Byte and Checksum, but they are out of the scope of the article.
+    - [ ] Convert the same number to base58 (get not conflicting LuzP)
 - [ ] Final
-    - [ ] Recap with list of encodings accompanied with short description and use-cases.
+    - [ ] Recap with the list of encodings accompanied by a short description and use cases.
 
 # Tools And Calculations
 
