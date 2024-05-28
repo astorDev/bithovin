@@ -12,7 +12,7 @@ public static class PrintedExtensions
         }
         else
         {
-            Console.WriteLine($"name: {arg}");
+            Console.WriteLine($"{name}: {arg}");
         }
         
         return arg;

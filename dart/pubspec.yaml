@@ -1,7 +1,7 @@
 name: bithovin
 description: Various cryptographic tools with special focus on Bitcoin.
 repository: https://github.com/astorDev/bithovin
-version: 2024.105.1260
+version: 2024.105.1280
 
 environment:
   sdk: ^3.2.5
