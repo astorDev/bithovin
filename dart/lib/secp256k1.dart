@@ -38,6 +38,11 @@ class Secp256k1PublicKey {
 
   Secp256k1PublicKey.unsafe(this.value);
 
+  factory Secp256k1PublicKey.fromPoint(ECPoint point) {
+    var pubKey = ECPublicKey(point, Secp256k1.params);
+    return Secp256k1PublicKey.unsafe(pubKey);
+  }
+
   factory Secp256k1PublicKey.fromRawBigIntegers(BigInt x, BigInt y) {
     var pubKey = EllipticCurve.constructPublicKey(x, y, Secp256k1.params);
     return Secp256k1PublicKey.unsafe(pubKey);
