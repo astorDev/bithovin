@@ -1,7 +1,7 @@
 on:
   push:
     paths:
-      - 'dotnet/lib'
+      - 'dotnet/lib/**'
       - '.github/workflows/nuget.yml'
 
 jobs:
