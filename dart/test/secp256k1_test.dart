@@ -46,4 +46,18 @@ void main() {
 
     expect(signatureFromCSharp, imported);
   });
+
+  test('import and verify from javascript', () {
+    var message = utf8.encode('{ \'hey\' : \'you\' }');
+    var importedPublicKey = '04df394d77ee3b401e8ebe666bb5bec51aa3f714a03977c82b61879265a17ea83b6fcecbbcc200341a0e55b9ffac5ee71ea521e47bbbfe8d9a073f0691b9161fba';
+    var importedSignature = '304402206db1e59a246c86c8c6f78101561362e98c3fa821653c72b69c8c6fd4efcf428502203f52f3ad842ec29c1daba409f9375e615d6d189f924ac51dd48b83649f29a7e2';
+
+    var publicKeyPoint = Secp256k1.curve.decodePoint(Hex(importedPublicKey).toBytes()).printed(name: "publicKey");
+    var signature = Hex(importedSignature).toSec1Der().toECSignature().printed(name: "signature");
+
+    var publicKey = Secp256k1PublicKey.fromPoint(publicKeyPoint!);
+
+    var verified = publicKey.verify(message, signature).printed(name: "verified");
+    expect(verified, true);
+  });
 }
