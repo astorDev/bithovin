@@ -50,4 +50,18 @@ public class Secp256k1Should
         var verification = publicKey.VerifySignature(Message, signature).Printed("verified");
         verification.Valid.Should().BeTrue();
     }
+
+    [TestMethod]
+    public void VerifyFromJavascript()
+    {
+        var message = "{ 'hey' : 'you' }"u8;
+        var importedPublicKey = "04df394d77ee3b401e8ebe666bb5bec51aa3f714a03977c82b61879265a17ea83b6fcecbbcc200341a0e55b9ffac5ee71ea521e47bbbfe8d9a073f0691b9161fba";
+        var importedSignature = "304402206db1e59a246c86c8c6f78101561362e98c3fa821653c72b69c8c6fd4efcf428502203f52f3ad842ec29c1daba409f9375e615d6d189f924ac51dd48b83649f29a7e2";
+
+        var publicKey = Secp256K1PublicKey.Decode(Convert.FromHexString(importedPublicKey)).Printed("publicKey");
+        var signature = Sec1Der.Parse(Convert.FromHexString(importedSignature)).Printed("signature");
+
+        var verification = publicKey.VerifySignature(message, signature).Printed("verified");
+        verification.Valid.Should().BeTrue();
+    }
 }
