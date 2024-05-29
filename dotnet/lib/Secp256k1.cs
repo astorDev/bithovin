@@ -143,4 +143,9 @@ public record Secp256K1PublicKey(ECPoint Point)
             return verifier.VerifySignature(hash, signature.r, signature.s);
         });
     }
+
+    public VerificationResult VerifySignature(ReadOnlySpan<byte> rawData, ECSignature signature, IDigest? digest = null)
+    {
+        return VerifySignature(rawData.ToArray(), signature, digest);
+    }
 }

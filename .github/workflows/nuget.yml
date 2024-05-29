@@ -1,0 +1,15 @@
+on:
+  push:
+    paths:
+      - 'dotnet/lib'
+      - '.github/workflows/nuget.yml'
+
+jobs:
+  publish:
+    name: Pack & Publish nuget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: astorDev/versy/calver/nuget@main
+        with:
+          project: dotnet/lib/Bithovin
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
