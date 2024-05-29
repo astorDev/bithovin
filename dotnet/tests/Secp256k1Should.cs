@@ -45,7 +45,7 @@ public class Secp256k1Should
         var signatureImport = "304402204fa25cf90189e5ae7b2d2256e189e708a16e55abedb1182585dda38bdd468bcf02205b259c619c8dca76106f6e160f0ee36b27e5abbc7c606f282aae73aad088f0d8";
 
         var publicKey = Secp256K1PublicKey.Decode(Convert.FromHexString(publicKeyImport)).Printed("publicKey");
-        var signature = Sec1Der.Parse(Convert.FromHexString(signatureImport)).Printed("signature");
+        var signature = Sec1Der.DecodeECSignature(Convert.FromHexString(signatureImport)).Printed("signature");
         
         var verification = publicKey.VerifySignature(Message, signature).Printed("verified");
         verification.Valid.Should().BeTrue();
@@ -59,7 +59,7 @@ public class Secp256k1Should
         var importedSignature = "304402206db1e59a246c86c8c6f78101561362e98c3fa821653c72b69c8c6fd4efcf428502203f52f3ad842ec29c1daba409f9375e615d6d189f924ac51dd48b83649f29a7e2";
 
         var publicKey = Secp256K1PublicKey.Decode(Convert.FromHexString(importedPublicKey)).Printed("publicKey");
-        var signature = Sec1Der.Parse(Convert.FromHexString(importedSignature)).Printed("signature");
+        var signature = Sec1Der.DecodeECSignature(Convert.FromHexString(importedSignature)).Printed("signature");
 
         var verification = publicKey.VerifySignature(message, signature).Printed("verified");
         verification.Valid.Should().BeTrue();
