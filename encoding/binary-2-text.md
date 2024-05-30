@@ -5,7 +5,7 @@ status: draft
 
 ## Binary to text encodings: Hex, Base64, Base58
 
-![-Would you like some #ffa500? -Yes, I love oranges!](thumbnail.png)
+![-Would you like some #ffa500? -Yes, I love oranges!](binary-2-text-thumbnail.png)
 
 If computers talk in 1s and 0s how do they exchange something meaningful? That was the question  I tried to answer in the [previous article]() about text encoding. Based on the information from that article let's formulate a list of steps we need to create an encoding:
 
@@ -49,7 +49,7 @@ Great! Now, to the last step - let human exchange bits for colors. Note, that 25
 
 Okay, what do we do with it? Let's encode ochre, using [this tool](https://whatthehex.app/):
 
-![Ochre step by step](finding-ochre-code.gif)
+![Finding Ochre](ochre.gif)
 
 Here's how it goes:
 
@@ -60,10 +60,7 @@ Here's how it goes:
 
 ## Passing more: Base64
 
-
-
 ## Who said Bitcoin?
-
 
 ## Recap
 
