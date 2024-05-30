@@ -45,11 +45,22 @@ Let's move to the next question of an encoding: **How** to put the input values 
 2. 9th to 16th bit for amount of green paint (G)
 3. 17th to 24th bit for amount fo blue paint (B)
 
-Great! Now, to the last step - let human exchange bits for colors. Note, that 256 = 16 * 16. Okay, how is it relevant? Well, imagine if we have 16 digits instead of our good old 10 (0, 1, 2, 3, 4, 5, 6, 7, 8, 9). Then we could represent amount of each paint by just 2 symbols, which would be cool, isn't it? Turns out a "system" with 16 digits exists and it's called **hex**, short for hexadecimal. It just uses A for 10 in decimal, B for 11, C - 12, D - 13, E - 14, F - 15 (giving total of 16 symbols).
+Great! Now, to the last step - let human exchange bits for colors. Note, that 256 = 16 * 16. Okay, how is it relevant? Well, imagine if we have 16 digits instead of our good old 10 (0, 1, 2, 3, 4, 5, 6, 7, 8, 9). Then we could represent amount of each paint by just 2 symbols, which would be cool, isn't it? Turns out a "system" with 16 digits exists and it's called **hex**, short for hexadecimal. It just uses a for 10 in decimal, b for 11, c - 12, c - 13, e - 14, f - 15 (giving total of 16 symbols).
 
-Okay, what do we do with it? Let's encode ochre, using [this tool]().
+Okay, what do we do with it? Let's encode ochre, using [this tool](https://whatthehex.app/):
 
-1. Let's start from yellow, which is full red (FF), full green (FF) and none of blue (00).
+![Ochre step by step](finding-ochre-code.gif)
+
+Here's how it goes:
+
+1. We'll start from `Yellow`. Which as you may know mix of red and green. So full for red (ff), full for green (ff) and none for blue (00)
+2. Of course ochre is not that bright color. Let's roll down colors down, so `cc` for red, `cc` for green and still nothing for blue `00`
+3. Ochre is also rather redish then greenish. Let's decrease green to `77`.
+4. Okay, a deep color probably wouldn't completely ignore a primary color. So, as the last touch, let's put just a little of blue: `22`.
+
+## Passing more: Base64
+
+
 
 ## Who said Bitcoin?
 
