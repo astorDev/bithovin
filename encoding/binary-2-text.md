@@ -7,6 +7,50 @@ status: draft
 
 ![-Would you like some #ffa500? -Yes, I love oranges!](thumbnail.png)
 
+If computers talk in 1s and 0s how do they exchange something meaningful? That was the question  I tried to answer in the [previous article]() about text encoding. Based on the information from that article let's formulate a list of steps we need to create an encoding:
+
+1. Decide **how** to create the **thing** we want. 
+
+Sounds simple right. But there's a catch! The creation process _must_ create our "thing" from numerical values (our input). For example for text we one by one read character codes (which are numerical), find they respective characters and output them.
+
+2. Decide **how** to put the input values in bits so that a reader can understand where each input value is.
+
+There's a few solutions for how to do this with text, which I described in the [text encodings article](). Long story short, in ASCII you always read exactly 7 bits, in UTF-8 you read first bits to understand how many to read after.
+
+3. **Optional**. Decide how to represent the bits so that __human__ could share them.
+
+And this step is the main topic we are going to discuss. Although, this is somewhat useless for text (since humana are good at the text itself) it becomes useful when we want to exchange something more fancy, like color, for example.
+
+## How the hex do I pass a color?
+
+Of course, we can use the good old words. However, understanding of color words is very subjective and contextual. What if we want to pass an exact color? This is where RGB color model steps in. This is "how to create the thing we want" (which is color in this case):
+
+1. Prepares 3 paint bins each 255 ~cm~ high.
+2. Prepares an absolutely black canvas.
+3. Put red paint in the first bin. (R)
+4. Put green paint in the second bin. (G)
+5. Put blue paint in the third bin. (B)
+6. Mix the paints from each bin.
+7. Put the mix on the black canvas.
+
+Essentially the only thing we **choose** is how many paint to put in each bin. How do I get the white from each? Fill every bin to it's fullest a.k.a `rgb(255, 255, 255)`. What about black? Put nothing in the bin a.k.a `rgb(0, 0, 0)`. 
+
+Note that we __must__ have a black canvas, so it's not an input value. That leaves us with just 3 values: how many red paint we put, how many green paint we put, how many blue paint we put. Note that each value is numerical and ranges from 0 to 255, which is 256 possible values. 
+
+Let's move to the next question of an encoding: **How** to put the input values in bits so that a reader can understand where each input value is? Since each input value has the same "capacity" the solution is very simple:
+
+> To represent a 256 possible values we need exactly 8 bit (2 ^ 8 = 256)
+
+1. 1st to 8th bit for amount of red paint (R)
+2. 9th to 16th bit for amount of green paint (G)
+3. 17th to 24th bit for amount fo blue paint (B)
+
+Great! Now, to the last step - let human exchange bits for colors. Note, that 256 = 16 * 16. Okay, how is it relevant? Well, imagine if we have 16 digits instead of our good old 10 (0, 1, 2, 3, 4, 5, 6, 7, 8, 9). Then we could represent amount of each paint by just 2 symbols, which would be cool, isn't it? Turns out a "system" with 16 digits exists and it's called **hex**, short for hexadecimal. It just uses A for 10 in decimal, B for 11, C - 12, D - 13, E - 14, F - 15 (giving total of 16 symbols).
+
+Okay, what do we do with it? Let's encode ochre, using [this tool]().
+
+1. Let's start from yellow, which is full red (FF), full green (FF) and none of blue (00).
+
 ## Who said Bitcoin?
 
 
