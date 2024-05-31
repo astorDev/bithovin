@@ -58,3 +58,6 @@ Here's how it goes:
 3. Ochre is also rather red-ish then green-ish. Let's decrease green to `77`.
 4. Okay, a deep color probably wouldn't completely ignore a primary color. So, as the last touch, let's put just a little of blue: `22`.
 
+## Recap
+
+In the [previos encoding article]() I've described how computers see a text behind 1s and 0s. This time we talked about slightly more complicated thing: how do they see color. Having that, we studied a binary to text encoding, called hex, that helps communicate exact colors in a way that understandable both by computer and humans. So now we are even more ready for the AI takeover 😄 
