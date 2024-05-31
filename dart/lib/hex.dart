@@ -19,6 +19,20 @@ class Hex {
     return Hex(value);
   }
 
+  static String encode(Uint8List bytes) {
+    var parts = bytes.map((e) => e.toRadixString(16).padLeft(2, '0'));
+    return parts.join();
+  }
+
+  static Uint8List decode(String hex) {
+    var raw = List.generate(
+      hex.length ~/ 2, 
+      (i) => int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16)
+    );
+    
+    return Uint8List.fromList(raw);
+  }
+
   Uint8List toBytes() {
     var str = value;
 

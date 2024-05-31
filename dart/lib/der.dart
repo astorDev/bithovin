@@ -16,6 +16,21 @@ class Sec1Der extends BytesFormat {
     return Sec1Der(bytes);
   }
 
+  static Uint8List encode(ECSignature signature) {
+    var outer = ASN1Sequence();
+    outer.add(ASN1Integer(signature.r));
+    outer.add(ASN1Integer(signature.s));
+    return outer.encode();
+  }
+
+  static ECSignature decode(Uint8List bytes) {
+    var parser = ASN1Sequence.fromBytes(bytes).elements!;
+    var el1 = parser.elementAt(0) as ASN1Integer;
+    var el2 = parser.elementAt(1) as ASN1Integer;
+
+    return ECSignature(el1.integer!, el2.integer!);
+  }
+
   ECSignature toECSignature() {
     var parser = ASN1Sequence.fromBytes(bytes).elements!;
     var el1 = parser.elementAt(0) as ASN1Integer;
