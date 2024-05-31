@@ -3,11 +3,11 @@ type: article
 status: draft
 ---
 
-## Binary to text: Hex
+## Binary to text encoding: Hex
 
 ![-Would you like some #ffa500? -Yes, I love oranges!](binary-2-text-thumbnail.png)
 
-If computers talk in 1s and 0s how do they exchange something meaningful? That was the question  I tried to answer in the [previous article]() about text encoding. Based on the information from that article let's formulate a list of steps we need to create an encoding:
+If computers talk in 1s and 0s how do they exchange something meaningful? That was the question  I tried to answer in the [previous article](https://medium.com/@vosarat1995/how-to-talk-in-1s-and-0s-e3d8a852a2b0) about text encoding. Based on the information from that article let's formulate a list of steps we need to create an encoding:
 
 1. Decide **how** to create the **thing** we want. 
 
@@ -37,7 +37,7 @@ Essentially the only thing we **choose** is how much paint to put in each bin. H
 
 Note that we __must__ have a black canvas, so it's not an input value. That leaves us with just 3 values: how much red paint we put in, how much green paint we put in, and how much blue paint we put in. Note that each value is numerical and ranges from 0 to 255, which is 256 possible values. 
 
-Let's move to the next question of encoding: **How** to put the input values in bits so that a reader can understand where each input value is? Since each input value has the same "capacity" the solution is very simple:
+Let's move to the next question of encoding: **How** to put the input values in bits so that a reader can understand where each input value is. Since each input value has the same "capacity" the solution is very simple:
 
 > To represent 256 possible values we need exactly 8 bits (2 ^ 8 = 256)
 
@@ -55,6 +55,9 @@ Here's how it goes:
 
 1. We'll start with `Yellow`. Which as you may know mix of red and green. So full for red (ff), full for green (ff), and none for blue (00)
 2. Of course ochre is not that bright color. Let's roll down colors down, so `cc` for red, `cc` for green, and still nothing for blue `00`
-3. Ochre is also rather red-ish then green-ish. Let's decrease green to `77`.
+3. Ochre is also rather red-ish than green-ish. Let's decrease green to `77`.
 4. Okay, a deep color probably wouldn't completely ignore a primary color. So, as the last touch, let's put just a little of blue: `22`.
 
+## Recap
+
+In the [previous encoding article](https://medium.com/@vosarat1995/how-to-talk-in-1s-and-0s-e3d8a852a2b0) I've described how computers see a text behind 1s and 0s. This time we talked about a slightly more complicated thing: how do they see color? Having that, we studied a binary-to-text encoding, called hex, that helps communicate exact colors in a way that is understandable both by computers and humans. So now we are even more ready for the AI takeover 😄 
