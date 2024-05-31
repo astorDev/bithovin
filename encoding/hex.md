@@ -3,7 +3,7 @@ type: article
 status: draft
 ---
 
-## Binary to text: Hex
+## Binary to text encoding: Hex
 
 ![-Would you like some #ffa500? -Yes, I love oranges!](binary-2-text-thumbnail.png)
 
