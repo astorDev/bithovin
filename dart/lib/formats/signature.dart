@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:bithovin/der.dart';
-import 'package:bithovin/hex.dart';
+import 'der.dart';
+import 'hex.dart';
 import 'package:pointycastle/ecc/api.dart';
 
 class ECSignatureBytesStringFormat {
