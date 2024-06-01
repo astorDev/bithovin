@@ -1,4 +1,4 @@
-import 'package:bithovin/bithovin.dart';
+import '../secp256k1.dart';
 
 class PrivateKeyBigIntStringFormat<TPrivateKey> {
   String Function(BigInt) bigIntToString;

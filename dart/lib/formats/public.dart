@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'hex.dart';
-import 'package:bithovin/secp256k1.dart';
+import '../secp256k1.dart';
 import 'package:pointycastle/ecc/api.dart';
 
 class PublicKeyPointByteStringFormat<TPublicKey> {
