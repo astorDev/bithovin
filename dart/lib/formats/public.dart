@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:bithovin/hex.dart';
+import 'hex.dart';
 import 'package:bithovin/secp256k1.dart';
 import 'package:pointycastle/ecc/api.dart';
 

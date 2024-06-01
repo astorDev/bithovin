@@ -15,6 +15,11 @@ class Secp256k1PrivateKey {
 
   Secp256k1PrivateKey.unsafe(this.value);
 
+  factory Secp256k1PrivateKey.unsafeFromBigInt(BigInt d) {
+    var privateKey = ECPrivateKey(d, Secp256k1.params);
+    return Secp256k1PrivateKey.unsafe(privateKey);
+  }
+
   Secp256k1PublicKey getPublicKey() {
     var Q = value.parameters!.G * value.d!;
     var pubKey = ECPublicKey(Q, value.parameters);
@@ -30,6 +35,17 @@ class Secp256k1PrivateKey {
 
   @override
   String toString() => value.d.toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Secp256k1PrivateKey) {
+      return value.d == other.value.d;
+    }
+    return false;
+  }
+  
+  @override
+  int get hashCode => value.hashCode;
 }
 
 class Secp256k1PublicKey {

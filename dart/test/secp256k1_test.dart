@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:bithovin/bithovin.dart';
-import 'package:bithovin/ec_signature_format.dart';
-import 'package:bithovin/public_key_format.dart';
 import 'package:test/test.dart';
 
 import 'printed_extensions.dart';
@@ -47,6 +45,15 @@ void main() {
     var imported = exported.toSec1Der().toECSignature().printed(name: "imported");
 
     expect(signatureFromCSharp, imported);
+  });
+
+  test('import and export private key', () {
+    var privateKey = Secp256k1PrivateKey.generateNew().printed(name: "privateKey");
+    var format = PrivateKeyFormatRegistry.secp256k1Hex;
+    var exported = format.export(privateKey).printed(name: "exported");
+    var imported = format.import(exported).printed(name: "imported");
+
+    expect(imported, privateKey);
   });
 
   test('import and verify from javascript', () {
